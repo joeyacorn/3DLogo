@@ -2,11 +2,11 @@
 
 'use strict';
 
-App.Functions = App.Functions || {};
+App.imageFunctions = App.imageFunctions || {};
 
 (function() {
 
-	App.Functions = {
+	App.imageFunctions = {
 
 		getOffscreenContext: function(width, height) {
 
