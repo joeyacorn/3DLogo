@@ -2,16 +2,20 @@
 
 'use strict';
 
-App.sceneFunctions = App.sceneFunctions || {};
+App.stage = App.stage || {};
 
 (function() {
 
-	App.sceneFunctions = {
+	App.stage = {
 
-		init: function() {
+		scene: null,
+		camera: null,
+		renderer: null,
+
+		initWithSize: function() {
 
 
-			
+
 		}
 
 	};
