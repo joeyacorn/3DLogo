@@ -1,4 +1,4 @@
-/* global App, THREE, requestAnimationFrame*/
+/* global App, THREE, requestAnimationFrame, System*/
 
 'use strict';
 
@@ -16,7 +16,18 @@ App.stage = App.stage || {};
 
 			this.scene = new THREE.Scene();
 			this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
-			this.renderer = new THREE.WebGLRenderer();
+			
+			// create the correct renderer for our system
+			if (System.support.webgl) {
+
+				this.renderer = new THREE.WebGLRenderer();
+
+			} else {
+
+				this.renderer = new THREE.CanvasRenderer();
+
+			}
+			
 			this.renderer.setSize(width, height);
 
 			this.camera.position.x = width / 2;
@@ -28,7 +39,7 @@ App.stage = App.stage || {};
 
 		createBackgroundSprite: function() {
 
-			
+
 
 		},
 
