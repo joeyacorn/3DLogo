@@ -34,7 +34,7 @@ App.imageFunctions = App.imageFunctions || {};
 				// get loaded image
 				var loadedImage = this;
 
-				var offscreenCanvasContext = App.Functions.getOffscreenContext(loadedImage.width, loadedImage.height);
+				var offscreenCanvasContext = App.imageFunctions.getOffscreenContext(loadedImage.width, loadedImage.height);
 
 				// draw the image into the canvas element
 				offscreenCanvasContext.drawImage(loadedImage, 0, 0);

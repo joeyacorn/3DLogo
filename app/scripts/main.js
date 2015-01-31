@@ -3,40 +3,27 @@
 
 window.App = {
 
-	Functions: {},
+	imageFunctions: {},
 
 	init: function() {
 
 		'use strict';
 
 		// load in a sample image
-		App.Functions.getPixelsFromImage('../images/nyan.png', function(imageData) {
+		App.imageFunctions.getPixelsFromImage('../images/nyan.png', function(imageData) {
 
-			var offscreenCanvasContext = App.Functions.getOffscreenContext(imageData.width, imageData.height);
+			// initiliase our stage
+			App.stage.initWithSize(imageData.width, imageData.height);
 
-			// go through each pixel drawing it out onto the canvas
-			for(var i = 0; i < imageData.height; i++) {
+			// add our actors
+			App.stage.createActorsWithImageData(imageData);
 
-				for(var j = 0; j < imageData.width; j++) {
+			// get the renderer onto the screen
+			var canvas = $(App.stage.renderer.domElement);
+			$('div.generated').append(canvas);
 
-					// work out what index we are at in the image data
-					var imageDataIndex = ((i * imageData.width) + j) * 4;
-					var r = imageData.data[imageDataIndex];
-					var g = imageData.data[imageDataIndex + 1];
-					var b = imageData.data[imageDataIndex + 2];
-					var a = imageData.data[imageDataIndex + 3];
-
-					// set the correct colour value
-					offscreenCanvasContext.fillStyle = 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')';
-					offscreenCanvasContext.fillRect(j, i, 1, 1);
-				
-				}
-
-			}
-
-			// put the canvas on the screen
-			var finalCanvas = $(offscreenCanvasContext.canvas);
-			$('div.generated').append(finalCanvas);
+			// and kick off our rendering
+			App.stage.renderScene();
 
 		});
 
