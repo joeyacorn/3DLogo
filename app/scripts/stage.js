@@ -26,6 +26,12 @@ App.stage = App.stage || {};
 
 		},
 
+		createBackgroundSprite: function() {
+
+			
+
+		},
+
 		createActorsWithImageData: function(imageData) {
 
 			var actorWidth = 1;
