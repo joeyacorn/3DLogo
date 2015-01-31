@@ -1,4 +1,4 @@
-/* global App, THREE, requestAnimationFrame, System*/
+/* global App, THREE, requestAnimationFrame*/
 
 'use strict';
 
@@ -18,7 +18,7 @@ App.stage = App.stage || {};
 			this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
 			
 			// create the correct renderer for our system
-			if (System.support.webgl) {
+			if (this.webglAvailable()) {
 
 				this.renderer = new THREE.WebGLRenderer();
 
@@ -32,8 +32,28 @@ App.stage = App.stage || {};
 
 			this.camera.position.x = width / 2;
 			this.camera.position.y = height / 2;
-			this.camera.position.z = 1000;
+			this.camera.position.z = 150;
 
+
+		},
+
+		webglAvailable: function() {
+
+			// checks if webgl is available and returns a boolean to indicate this
+			try {
+				
+				var canvas = document.createElement( 'canvas' );
+				
+				return !!( window.WebGLRenderingContext && (
+					canvas.getContext( 'webgl' ) ||
+					canvas.getContext( 'experimental-webgl' ) )
+				);
+
+			} catch ( e ) {
+
+				return false;
+
+			}
 
 		},
 
