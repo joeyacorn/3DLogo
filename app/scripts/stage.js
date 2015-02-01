@@ -80,16 +80,12 @@ App.stage = App.stage || {};
 					var b = imageData.data[imageDataIndex + 2];
 					//var a = imageData.data[imageDataIndex + 3];
 
-					// create our actors
-					var geometry = this.createGeometryForQuad(actorWidth, actorHeight);
-					var material = new THREE.MeshBasicMaterial({ color: 'rgb(' + r + ', ' + g + ', ' + b + ')'});
-					material.side = THREE.DoubleSide;
-					var mesh = new THREE.Mesh( geometry, material );
-					this.scene.add(mesh);
-
-					// move the mesh to the correct position
-					mesh.translateX(j);
-					mesh.translateY(i);
+					// create our actor sprites
+					var tempSpriteMaterial = new THREE.SpriteMaterial({color: 'rgb(' + r + ',' + g + ',' + b + ')'});
+					var tempSprite = new THREE.Sprite(tempSpriteMaterial);
+					tempSprite.position.set(j * actorWidth, i * actorHeight, 0);
+					tempSprite.scale.set(actorWidth, actorHeight, 1.0);
+					this.scene.add(tempSprite);
 				
 				}
 
@@ -99,22 +95,6 @@ App.stage = App.stage || {};
 			// var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 			// var cube = new THREE.Mesh( geometry, material );
 			// this.scene.add( cube );
-		},
-
-		createGeometryForQuad: function(width, height) {
-
-			var geometry = new THREE.Geometry();
-
-			geometry.vertices.push( new THREE.Vector3( 0, 0, 0 ) );
-			geometry.vertices.push( new THREE.Vector3( width, 0, 0 ) );
-			geometry.vertices.push( new THREE.Vector3( width, height, 0 ) );
-			geometry.vertices.push( new THREE.Vector3( 0, height, 0 ) );
-
-			geometry.faces.push( new THREE.Face3( 0, 1, 2 ) ); // counter-clockwise winding order
-			geometry.faces.push( new THREE.Face3( 0, 2, 3 ) );
-
-			return geometry;
-
 		},
 
 		renderScene: function() {
