@@ -12,6 +12,7 @@ App.stage = App.stage || {};
 		camera: null,
 		renderer: null,
 		currentCameraPosition: 150,
+		cameraUpdateVelocity: 3.0,
 
 		initWithSize: function(width, height) {
 
@@ -69,6 +70,8 @@ App.stage = App.stage || {};
 			var actorWidth = 1;
 			var actorHeight = 1;
 
+			var geometry = new THREE.Geometry();
+
 			// go through each pixel in the imageData drawing it out onto the canvas
 			for(var i = 0; i < imageData.height; i++) {
 
@@ -79,18 +82,48 @@ App.stage = App.stage || {};
 					var r = imageData.data[imageDataIndex];
 					var g = imageData.data[imageDataIndex + 1];
 					var b = imageData.data[imageDataIndex + 2];
-					//var a = imageData.data[imageDataIndex + 3];
+					// var a = imageData.data[imageDataIndex + 3];
 
-					// create our actor sprites
-					var tempSpriteMaterial = new THREE.SpriteMaterial({color: 'rgb(' + r + ',' + g + ',' + b + ')'});
-					var tempSprite = new THREE.Sprite(tempSpriteMaterial);
-					tempSprite.position.set(j * actorWidth, i * actorHeight, 0);
-					tempSprite.scale.set(actorWidth, actorHeight, 1.0);
-					this.scene.add(tempSprite);
+					// create our actors
+					this.createGeometryForQuad(geometry, j * actorWidth, i * actorHeight, actorWidth, actorHeight, (i * imageData.width) + j, 'rgb(' + r + ',' + g + ',' + b + ')');
 				
 				}
 
 			}
+
+			var material = new THREE.MeshBasicMaterial({ vertexColors:THREE.VertexColors});
+			var mesh = new THREE.Mesh( geometry, material);
+			this.scene.add(mesh);
+
+		},
+
+		createGeometryForQuad: function(geometry, x, y, width, height, quadIndex, color) {
+
+			var vertexIndex = geometry.vertices.length;
+
+			geometry.vertices.push( new THREE.Vector3( x, y, 0 ) );
+			geometry.vertices.push( new THREE.Vector3( x + width, y, 0 ) );
+			geometry.vertices.push( new THREE.Vector3( x + width, y + height, 0 ) );
+			geometry.vertices.push( new THREE.Vector3( x, y + height, 0 ) );
+ 
+			var tempFace1 = new THREE.Face3( vertexIndex, vertexIndex + 1, vertexIndex + 2 ); // counter-clockwise winding order
+
+			// set the correct colours
+			tempFace1.vertexColors[0] = new THREE.Color(color);
+			tempFace1.vertexColors[1] = new THREE.Color(color);
+			tempFace1.vertexColors[2] = new THREE.Color(color);
+
+			var tempFace2 = new THREE.Face3( vertexIndex, vertexIndex + 2, vertexIndex + 3 );
+
+			// set the correct colours
+			tempFace2.vertexColors[0] = new THREE.Color(color);
+			tempFace2.vertexColors[1] = new THREE.Color(color);
+			tempFace2.vertexColors[2] = new THREE.Color(color);
+
+			geometry.faces.push( tempFace1 );
+			geometry.faces.push( tempFace2 );
+
+
 
 		},
 
@@ -103,12 +136,11 @@ App.stage = App.stage || {};
 
 		update: function() {
 
-			var cameraUpdate = 3.0;
+			App.stage.camera.translateZ(0 - App.stage.cameraUpdateVelocity);
 
-			if (App.stage.currentCameraPosition > 50) {
+			if (App.stage.camera.position.z < 10 || App.stage.camera.position.z > 200) {
 
-				App.stage.currentCameraPosition -= cameraUpdate;
-				App.stage.camera.translateZ(-cameraUpdate);
+				App.stage.cameraUpdateVelocity *= -1;
 
 			}
 
