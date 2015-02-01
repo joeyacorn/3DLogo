@@ -11,6 +11,7 @@ App.stage = App.stage || {};
 		scene: null,
 		camera: null,
 		renderer: null,
+		currentCameraPosition: 150,
 
 		initWithSize: function(width, height) {
 
@@ -32,7 +33,7 @@ App.stage = App.stage || {};
 
 			this.camera.position.x = width / 2;
 			this.camera.position.y = height / 2;
-			this.camera.position.z = 150;
+			this.camera.position.z = this.currentCameraPosition;
 
 
 		},
@@ -91,16 +92,26 @@ App.stage = App.stage || {};
 
 			}
 
-			// var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-			// var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-			// var cube = new THREE.Mesh( geometry, material );
-			// this.scene.add( cube );
 		},
 
 		renderScene: function() {
 
-			//requestAnimationFrame( App.stage.renderScene );
+			requestAnimationFrame( App.stage.renderScene );
+			App.stage.update();
 			App.stage.renderer.render( App.stage.scene, App.stage.camera );
+		},
+
+		update: function() {
+
+			var cameraUpdate = 3.0;
+
+			if (App.stage.currentCameraPosition > 50) {
+
+				App.stage.currentCameraPosition -= cameraUpdate;
+				App.stage.camera.translateZ(-cameraUpdate);
+
+			}
+
 		}
 
 	};
