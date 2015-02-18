@@ -1,3 +1,5 @@
+/* global THREE */
+
 /**
  * @author mrdoob / http://mrdoob.com/
  * @author supereggbert / http://www.paulbrunt.co.uk/
@@ -112,7 +114,7 @@ THREE.Projector = function () {
 	_clipBox = new THREE.Box3( new THREE.Vector3( - 1, - 1, - 1 ), new THREE.Vector3( 1, 1, 1 ) ),
 	_boundingBox = new THREE.Box3(),
 	_points3 = new Array( 3 ),
-	_points4 = new Array( 4 ),
+	//_points4 = new Array( 4 ),
 
 	_viewMatrix = new THREE.Matrix4(),
 	_viewProjectionMatrix = new THREE.Matrix4(),
@@ -145,6 +147,7 @@ THREE.Projector = function () {
 
 	this.pickingRay = function ( vector, camera ) {
 
+		camera = null;
 		console.error( 'THREE.Projector: .pickingRay() is now raycaster.setFromCamera().' );
 
 	};
@@ -217,7 +220,10 @@ THREE.Projector = function () {
 
 		var checkTriangleVisibility = function ( v1, v2, v3 ) {
 
-			if ( v1.visible === true || v2.visible === true || v3.visible === true ) return true;
+			if ( v1.visible === true || v2.visible === true || v3.visible === true ) {
+				return true;
+			}
+				
 
 			_points3[ 0 ] = v1.positionScreen;
 			_points3[ 1 ] = v2.positionScreen;
@@ -260,7 +266,9 @@ THREE.Projector = function () {
 			var v2 = _vertexPool[ b ];
 			var v3 = _vertexPool[ c ];
 
-			if ( checkTriangleVisibility( v1, v2, v3 ) === false ) return;
+			if ( checkTriangleVisibility( v1, v2, v3 ) === false ) {
+				return;
+			}
 
 			if ( material.side === THREE.DoubleSide || checkBackfaceCulling( v1, v2, v3 ) === true ) {
 
@@ -307,7 +315,7 @@ THREE.Projector = function () {
 			pushUv: pushUv,
 			pushLine: pushLine,
 			pushTriangle: pushTriangle
-		}
+		};
 
 	};
 
@@ -321,8 +329,12 @@ THREE.Projector = function () {
 
 		_renderData.elements.length = 0;
 
-		if ( scene.autoUpdate === true ) scene.updateMatrixWorld();
-		if ( camera.parent === undefined ) camera.updateMatrixWorld();
+		if ( scene.autoUpdate === true ) {
+			scene.updateMatrixWorld();
+		}
+		if ( camera.parent === undefined ) {
+			camera.updateMatrixWorld();
+		}
 
 		_viewMatrix.copy( camera.matrixWorldInverse.getInverse( camera.matrixWorld ) );
 		_viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, _viewMatrix );
@@ -344,7 +356,7 @@ THREE.Projector = function () {
 
 			} else if ( object instanceof THREE.Mesh || object instanceof THREE.Line || object instanceof THREE.Sprite ) {
 
-				if ( object.material.visible === false ) return;
+				if ( object.material.visible === false ) {return;}
 
 				if ( object.frustumCulled === false || _frustum.intersectsObject( object ) === true ) {
 
@@ -390,7 +402,7 @@ THREE.Projector = function () {
 					var attributes = geometry.attributes;
 					var offsets = geometry.offsets;
 
-					if ( attributes.position === undefined ) continue;
+					if ( attributes.position === undefined ) {continue;}
 
 					var positions = attributes.position.array;
 
@@ -404,9 +416,9 @@ THREE.Projector = function () {
 
 						var normals = attributes.normal.array;
 
-						for ( var i = 0, l = normals.length; i < l; i += 3 ) {
+						for ( var j = 0, k = normals.length; j < k; j += 3 ) {
 
-							renderList.pushNormal( normals[ i ], normals[ i + 1 ], normals[ i + 2 ] );
+							renderList.pushNormal( normals[ j ], normals[ j + 1 ], normals[ j + 2 ] );
 
 						}
 
@@ -416,7 +428,7 @@ THREE.Projector = function () {
 
 						var uvs = attributes.uv.array;
 
-						for ( var i = 0, l = uvs.length; i < l; i += 2 ) {
+						for ( i = 0, l = uvs.length; i < l; i += 2 ) {
 
 							renderList.pushUv( uvs[ i ], uvs[ i + 1 ] );
 
@@ -430,12 +442,12 @@ THREE.Projector = function () {
 
 						if ( offsets.length > 0 ) {
 
-							for ( var o = 0; o < offsets.length; o ++ ) {
+							for ( o = 0; o < offsets.length; o ++ ) {
 
 								var offset = offsets[ o ];
 								var index = offset.index;
 
-								for ( var i = offset.start, l = offset.start + offset.count; i < l; i += 3 ) {
+								for ( i = offset.start, l = offset.start + offset.count; i < l; i += 3 ) {
 
 									renderList.pushTriangle( indices[ i ] + index, indices[ i + 1 ] + index, indices[ i + 2 ] + index );
 
@@ -445,7 +457,7 @@ THREE.Projector = function () {
 
 						} else {
 
-							for ( var i = 0, l = indices.length; i < l; i += 3 ) {
+							for ( i = 0, l = indices.length; i < l; i += 3 ) {
 
 								renderList.pushTriangle( indices[ i ], indices[ i + 1 ], indices[ i + 2 ] );
 
@@ -455,7 +467,7 @@ THREE.Projector = function () {
 
 					} else {
 
-						for ( var i = 0, l = positions.length / 3; i < l; i += 3 ) {
+						for ( i = 0, l = positions.length / 3; i < l; i += 3 ) {
 
 							renderList.pushTriangle( i, i + 1, i + 2 );
 
@@ -485,11 +497,9 @@ THREE.Projector = function () {
 
 						var face = faces[ f ];
 
-						var material = isFaceMaterial === true
-							 ? objectMaterials.materials[ face.materialIndex ]
-							 : object.material;
+						var material = isFaceMaterial === true ? objectMaterials.materials[ face.materialIndex ] : object.material;
 
-						if ( material === undefined ) continue;
+						if ( material === undefined ) {continue;}
 
 						var side = material.side;
 
