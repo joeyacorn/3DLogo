@@ -73,12 +73,12 @@ App.stage = App.stage || {};
 			var geometry = new THREE.Geometry();
 
 			// go through each pixel in the imageData drawing it out onto the canvas
-			for(var i = 0; i < imageData.height; i++) {
+			for(var i = imageData.height; i > 0; i--) {
 
 				for(var j = 0; j < imageData.width; j++) {
 
 					// work out what index we are at in the image data
-					var imageDataIndex = ((i * imageData.width) + j) * 4;
+					var imageDataIndex = (((imageData.height - i) * imageData.width) + j) * 4;
 					var r = imageData.data[imageDataIndex];
 					var g = imageData.data[imageDataIndex + 1];
 					var b = imageData.data[imageDataIndex + 2];
