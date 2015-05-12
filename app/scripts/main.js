@@ -35,8 +35,6 @@ window.App = {
 
 	keyPressed: function(keyEvent) {
 
-		console.log(keyEvent.keyCode);
-
 		if (keyEvent.keyCode === 49) {
 
 			// zoom to the center
