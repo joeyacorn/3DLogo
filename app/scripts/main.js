@@ -35,7 +35,9 @@ window.App = {
 
 	keyPressed: function(keyEvent) {
 
-		if (keyEvent.key === '1') {
+		console.log(keyEvent.keyCode);
+
+		if (keyEvent.keyCode === 49) {
 
 			// zoom to the center
 			App.stage.zoomToImageCoords(App.stage.width / 2, App.stage.height / 2);
