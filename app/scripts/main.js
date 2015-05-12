@@ -4,6 +4,7 @@
 window.App = {
 
 	imageFunctions: {},
+	zooming: false,
 
 	init: function() {
 
@@ -35,10 +36,19 @@ window.App = {
 
 	keyPressed: function(keyEvent) {
 
-		if (keyEvent.keyCode === 49) {
+		if (! this.zooming) {
 
-			// zoom to the center
-			App.stage.zoomToActor(80, 100);
+			if (keyEvent.keyCode === 49) {
+
+				this.zooming = true;
+
+				var actorX = Math.floor((Math.random() * App.stage.width) + 1);
+				var actorY = Math.floor((Math.random() * App.stage.height) + 1);
+
+				// zoom to the center
+				App.stage.zoomToActor(actorX, actorY);
+
+			}
 
 		}
 
@@ -47,6 +57,8 @@ window.App = {
 	keyReleased: function() {
 
 		App.stage.resetCamera();
+
+		this.zooming = false;
 
 	},
 
