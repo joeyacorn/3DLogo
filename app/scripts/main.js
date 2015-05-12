@@ -38,7 +38,7 @@ window.App = {
 		if (keyEvent.keyCode === 49) {
 
 			// zoom to the center
-			App.stage.zoomToImageCoords(App.stage.width / 2, App.stage.height / 2);
+			App.stage.zoomToActor(80, 100);
 
 		}
 

@@ -14,6 +14,7 @@ App.stage = App.stage || {};
 		cameraUpdateVelocity: 3.0,
 		width: 0,
 		height: 0,
+		actors: null,
 
 		initWithSize: function(width, height) {
 
@@ -72,8 +73,12 @@ App.stage = App.stage || {};
 
 			var geometry = new THREE.Geometry();
 
+			this.actors = [];
+
 			// go through each pixel in the imageData drawing it out onto the canvas
 			for(var i = imageData.height; i > 0; i--) {
+
+				var rowArray = [];
 
 				for(var j = 0; j < imageData.width; j++) {
 
@@ -86,8 +91,14 @@ App.stage = App.stage || {};
 
 					// create our actors
 					this.createGeometryForQuad(geometry, j * actorWidth, i * actorHeight, actorWidth, actorHeight, (i * imageData.width) + j, 'rgb(' + r + ',' + g + ',' + b + ')');
+
+					// save reference to actor
+					rowArray.push({r: r, g: g, b: b, x: j * actorWidth, y: i * actorHeight});
 				
 				}
+
+				// save reference to row of actors
+				this.actors.push(rowArray);
 
 			}
 
@@ -124,7 +135,6 @@ App.stage = App.stage || {};
 			geometry.faces.push( tempFace2 );
 
 
-
 		},
 
 		renderScene: function() {
@@ -140,16 +150,19 @@ App.stage = App.stage || {};
 
 		},
 
-		zoomToImageCoords: function(x, y) {
+		zoomToActor: function(x, y) {
 
 			// for the given image coordinates, 
 			// zoom the camera in 
 			// look at the coords as a center point
 			// keep the camera looking down the z axis
 
+			// zoom to the defined actors position
+			var tempActor = this.actors[y][x];
+
 			// tween to the new position
 			var tween = new TWEEN.Tween(App.stage.camera.position)
-				.to({x: x, y: y, z: 10}, 500).easing(TWEEN.Easing.Quartic.Out);
+				.to({x: tempActor.x, y: tempActor.y, z: 10}, 500).easing(TWEEN.Easing.Quartic.Out);
 			tween.start();
 
 		},
@@ -160,6 +173,12 @@ App.stage = App.stage || {};
 			var tween = new TWEEN.Tween(App.stage.camera.position)
 				.to({x: this.width / 2, y: this.height / 2, z: 150}, 500).easing(TWEEN.Easing.Quartic.Out);
 			tween.start();
+
+		},
+
+		addHTMLElementToActor: function(x, y) {
+
+
 
 		}
 
