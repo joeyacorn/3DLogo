@@ -27,8 +27,28 @@ window.App = {
 
 		});
 
+		// listen for keypresses
+		window.addEventListener('keydown', App.keyPressed, false);
+		window.addEventListener('keyup', App.keyReleased, false);
 
-	}
+	},
+
+	keyPressed: function(keyEvent) {
+
+		if (keyEvent.key === '1') {
+
+			// zoom to the center
+			App.stage.zoomToImageCoords(App.stage.width / 2, App.stage.height / 2);
+
+		}
+
+	},
+
+	keyReleased: function() {
+
+		App.stage.resetCamera();
+
+	},
 
 };
 

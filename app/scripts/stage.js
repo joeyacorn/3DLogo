@@ -13,9 +13,13 @@ App.stage = App.stage || {};
 		renderer: null,
 		currentCameraPosition: 150,
 		cameraUpdateVelocity: 3.0,
+		width: 0,
+		height: 0,
 
 		initWithSize: function(width, height) {
 
+			this.width = width;
+			this.height = height;
 			this.scene = new THREE.Scene();
 			this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
 			
@@ -32,10 +36,7 @@ App.stage = App.stage || {};
 			
 			this.renderer.setSize(width, height);
 
-			this.camera.position.x = width / 2;
-			this.camera.position.y = height / 2;
-			this.camera.position.z = this.currentCameraPosition;
-
+			this.resetCamera();
 
 		},
 
@@ -136,13 +137,36 @@ App.stage = App.stage || {};
 
 		update: function() {
 
-			App.stage.camera.translateZ(0 - App.stage.cameraUpdateVelocity);
+			// App.stage.camera.translateZ(0 - App.stage.cameraUpdateVelocity);
 
-			if (App.stage.camera.position.z < 10 || App.stage.camera.position.z > 200) {
+			// if (App.stage.camera.position.z < 10 || App.stage.camera.position.z > 200) {
 
-				App.stage.cameraUpdateVelocity *= -1;
+			// 	App.stage.cameraUpdateVelocity *= -1;
 
-			}
+			// }
+
+		},
+
+		zoomToImageCoords: function(x, y) {
+
+			// for the given image coordinates, 
+			// zoom the camera in 
+			// look at the coords as a center point
+			// keep the camera looking down the z axis
+
+			App.stage.camera.position.z = 10;
+			App.stage.camera.position.x = x;
+			App.stage.camera.position.y = y;
+
+		},
+
+		resetCamera: function() {
+
+			this.currentCameraPosition = 150;
+
+			this.camera.position.x = this.width / 2;
+			this.camera.position.y = this.height / 2;
+			this.camera.position.z = this.currentCameraPosition;
 
 		}
 
