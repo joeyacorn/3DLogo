@@ -1,4 +1,4 @@
-/* global App, THREE, requestAnimationFrame*/
+/* global App, THREE, requestAnimationFrame, TWEEN*/
 
 'use strict';
 
@@ -11,7 +11,6 @@ App.stage = App.stage || {};
 		scene: null,
 		camera: null,
 		renderer: null,
-		currentCameraPosition: 150,
 		cameraUpdateVelocity: 3.0,
 		width: 0,
 		height: 0,
@@ -137,13 +136,7 @@ App.stage = App.stage || {};
 
 		update: function() {
 
-			// App.stage.camera.translateZ(0 - App.stage.cameraUpdateVelocity);
-
-			// if (App.stage.camera.position.z < 10 || App.stage.camera.position.z > 200) {
-
-			// 	App.stage.cameraUpdateVelocity *= -1;
-
-			// }
+			TWEEN.update();
 
 		},
 
@@ -154,19 +147,19 @@ App.stage = App.stage || {};
 			// look at the coords as a center point
 			// keep the camera looking down the z axis
 
-			App.stage.camera.position.z = 10;
-			App.stage.camera.position.x = x;
-			App.stage.camera.position.y = y;
+			// tween to the new position
+			var tween = new TWEEN.Tween(App.stage.camera.position)
+				.to({x: x, y: y, z: 10}, 500).easing(TWEEN.Easing.Quartic.Out);
+			tween.start();
 
 		},
 
 		resetCamera: function() {
 
-			this.currentCameraPosition = 150;
-
-			this.camera.position.x = this.width / 2;
-			this.camera.position.y = this.height / 2;
-			this.camera.position.z = this.currentCameraPosition;
+			// tween to the new position
+			var tween = new TWEEN.Tween(App.stage.camera.position)
+				.to({x: this.width / 2, y: this.height / 2, z: 150}, 500).easing(TWEEN.Easing.Quartic.Out);
+			tween.start();
 
 		}
 
