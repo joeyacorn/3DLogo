@@ -9,8 +9,10 @@ App.stage = App.stage || {};
 	App.stage = {
 
 		scene: null,
+		cssScene: null,
 		camera: null,
 		renderer: null,
+		cssRenderer: null,
 		cameraUpdateVelocity: 3.0,
 		width: 0,
 		height: 0,
@@ -21,6 +23,7 @@ App.stage = App.stage || {};
 			this.width = width;
 			this.height = height;
 			this.scene = new THREE.Scene();
+			this.cssScene = new THREE.Scene();
 			this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
 			
 			// create the correct renderer for our system
@@ -33,9 +36,14 @@ App.stage = App.stage || {};
 				this.renderer = new THREE.CanvasRenderer();
 
 			}
-			
+
 			this.renderer.setSize(width, height);
 
+			// and set up our css renderer
+			this.cssRenderer = new THREE.CSS3DRenderer();
+			this.cssRenderer.setSize(width, height);
+
+			// reset the camera
 			this.resetCamera();
 
 		},
@@ -142,6 +150,7 @@ App.stage = App.stage || {};
 			requestAnimationFrame( App.stage.renderScene );
 			App.stage.update();
 			App.stage.renderer.render( App.stage.scene, App.stage.camera );
+			App.stage.cssRenderer.render( App.stage.cssScene, App.stage.camera );
 		},
 
 		update: function() {
@@ -162,7 +171,12 @@ App.stage = App.stage || {};
 
 			// tween to the new position
 			var tween = new TWEEN.Tween(App.stage.camera.position)
-				.to({x: tempActor.x, y: tempActor.y, z: 10}, 500).easing(TWEEN.Easing.Quartic.Out);
+				.to({x: tempActor.x, y: tempActor.y, z: 10}, 500).easing(TWEEN.Easing.Quartic.Out)
+				.onComplete(function() {
+
+					App.stage.addHTMLElementToActor(x, y);
+
+				});
 			tween.start();
 
 		},
@@ -178,7 +192,22 @@ App.stage = App.stage || {};
 
 		addHTMLElementToActor: function(x, y) {
 
+			var tempActor = App.stage.actors[y][x];
 
+			// using this x and y position, create an html element
+			var element = document.createElement( 'div' );
+			element.innerHTML = 'joe joe joe joe';
+			element.className = 'cssObjects';
+			
+			// create the object3d for this element
+			var cssObject = new THREE.CSS3DObject( element );
+			// we reference the same position and rotation 
+			cssObject.position.x = tempActor.x;
+			cssObject.position.y = tempActor.y;
+			cssObject.position.z = tempActor.z;
+
+			// add it to the css scene
+			App.stage.cssScene.add(cssObject);
 
 		}
 
