@@ -102,8 +102,8 @@ window.App = {
 
 				this.zooming = true;
 
-				var actorX = Math.floor((Math.random() * App.stage.width) + 1);
-				var actorY = Math.floor((Math.random() * App.stage.height) + 1);
+				var actorX = Math.floor((Math.random() * App.stage.imageWidth) + 1);
+				var actorY = Math.floor((Math.random() * App.stage.imageHeight) + 1);
 
 				// zoom to the center
 				App.stage.zoomToActor(actorX, actorY);

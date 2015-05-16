@@ -16,6 +16,8 @@ App.stage = App.stage || {};
 		cameraUpdateVelocity: 3.0,
 		sceneWidth: 0,
 		sceneHeight: 0,
+		imageWidth: 0,
+		imageHeight: 0,
 		actors: null,
 
 		initWithSize: function(width, height) {
@@ -75,6 +77,9 @@ App.stage = App.stage || {};
 		},
 
 		createActorsWithImageData: function(imageData) {
+
+			this.imageWidth = imageData.width;
+			this.imageHeight = imageData.height;
 
 			// calculate the width and height each pixel will need to be 
 			// in the final output, compared to the input image
