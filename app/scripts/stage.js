@@ -132,29 +132,97 @@ App.stage = App.stage || {};
 
 			var zRange = 3.0;
 			var zDepth = this.getRandomArbitrary(0 - zRange, 0 + zRange);
+			var actorDepth = 1.0;
 
-			geometry.vertices.push( new THREE.Vector3( x, y, zDepth ) );
-			geometry.vertices.push( new THREE.Vector3( x + width, y, zDepth ) );
-			geometry.vertices.push( new THREE.Vector3( x + width, y + height, zDepth ) );
-			geometry.vertices.push( new THREE.Vector3( x, y + height, zDepth ) );
- 
-			var tempFace1 = new THREE.Face3( vertexIndex, vertexIndex + 1, vertexIndex + 2 ); // counter-clockwise winding order
+			// ------- front face
 
-			// set the correct colours
-			tempFace1.vertexColors[0] = new THREE.Color(color);
-			tempFace1.vertexColors[1] = new THREE.Color(color);
-			tempFace1.vertexColors[2] = new THREE.Color(color);
+			geometry.vertices.push( new THREE.Vector3( x, y, zDepth ) );					// index 0
+			geometry.vertices.push( new THREE.Vector3( x + width, y, zDepth ) );			// index 1
+			geometry.vertices.push( new THREE.Vector3( x + width, y + height, zDepth ) );	// index 2
+			geometry.vertices.push( new THREE.Vector3( x, y + height, zDepth ) );			// index 3
 
-			var tempFace2 = new THREE.Face3( vertexIndex, vertexIndex + 2, vertexIndex + 3 );
+			var frontFace1 = new THREE.Face3( vertexIndex, vertexIndex + 1, vertexIndex + 2 ); // counter-clockwise winding order
 
 			// set the correct colours
-			tempFace2.vertexColors[0] = new THREE.Color(color);
-			tempFace2.vertexColors[1] = new THREE.Color(color);
-			tempFace2.vertexColors[2] = new THREE.Color(color);
+			frontFace1.vertexColors[0] = new THREE.Color(color);
+			frontFace1.vertexColors[1] = new THREE.Color(color);
+			frontFace1.vertexColors[2] = new THREE.Color(color);
 
-			geometry.faces.push( tempFace1 );
-			geometry.faces.push( tempFace2 );
+			var frontFace2 = new THREE.Face3( vertexIndex, vertexIndex + 2, vertexIndex + 3 );
 
+			// set the correct colours
+			frontFace2.vertexColors[0] = new THREE.Color(color);
+			frontFace2.vertexColors[1] = new THREE.Color(color);
+			frontFace2.vertexColors[2] = new THREE.Color(color);
+
+			// ------- left face
+
+			geometry.vertices.push( new THREE.Vector3( x, y, zDepth - actorDepth ) );			// index 4
+			geometry.vertices.push( new THREE.Vector3( x, y + height, zDepth - actorDepth ) );	// index 5
+
+			var leftFace1 = new THREE.Face3( vertexIndex, vertexIndex + 3, vertexIndex + 5 );
+			leftFace1.vertexColors[0] = new THREE.Color(color);
+			leftFace1.vertexColors[1] = new THREE.Color(color);
+			leftFace1.vertexColors[2] = new THREE.Color(color);
+
+			var leftFace2 = new THREE.Face3( vertexIndex, vertexIndex + 5, vertexIndex + 4 );
+			leftFace2.vertexColors[0] = new THREE.Color(color);
+			leftFace2.vertexColors[1] = new THREE.Color(color);
+			leftFace2.vertexColors[2] = new THREE.Color(color);
+
+			// ------- bottom face
+
+			geometry.vertices.push( new THREE.Vector3( x + width, y, zDepth - actorDepth ) );	// index 6
+
+			var bottomFace1 = new THREE.Face3( vertexIndex, vertexIndex + 4, vertexIndex + 1 );
+			bottomFace1.vertexColors[0] = new THREE.Color(color);
+			bottomFace1.vertexColors[1] = new THREE.Color(color);
+			bottomFace1.vertexColors[2] = new THREE.Color(color);
+
+			var bottomFace2 = new THREE.Face3( vertexIndex + 1, vertexIndex + 4, vertexIndex + 6 );
+			bottomFace2.vertexColors[0] = new THREE.Color(color);
+			bottomFace2.vertexColors[1] = new THREE.Color(color);
+			bottomFace2.vertexColors[2] = new THREE.Color(color);
+
+			// ------- top face
+
+			geometry.vertices.push( new THREE.Vector3( x + width, y + height, zDepth - actorDepth ) );	// index 7
+
+			var topFace1 = new THREE.Face3( vertexIndex + 3, vertexIndex + 7, vertexIndex + 5 );
+			topFace1.vertexColors[0] = new THREE.Color(color);
+			topFace1.vertexColors[1] = new THREE.Color(color);
+			topFace1.vertexColors[2] = new THREE.Color(color);
+
+			var topFace2 = new THREE.Face3( vertexIndex + 3, vertexIndex + 2, vertexIndex + 7 );
+			topFace2.vertexColors[0] = new THREE.Color(color);
+			topFace2.vertexColors[1] = new THREE.Color(color);
+			topFace2.vertexColors[2] = new THREE.Color(color);
+
+			// ------- right face
+
+			var rightFace1 = new THREE.Face3( vertexIndex + 2, vertexIndex + 1, vertexIndex + 7 );
+			rightFace1.vertexColors[0] = new THREE.Color(color);
+			rightFace1.vertexColors[1] = new THREE.Color(color);
+			rightFace1.vertexColors[2] = new THREE.Color(color);
+
+			var rightFace2 = new THREE.Face3( vertexIndex + 1, vertexIndex + 6, vertexIndex + 7 );
+			rightFace2.vertexColors[0] = new THREE.Color(color);
+			rightFace2.vertexColors[1] = new THREE.Color(color);
+			rightFace2.vertexColors[2] = new THREE.Color(color);
+
+
+			// add all faces to geometry
+
+			geometry.faces.push( frontFace1 );
+			geometry.faces.push( frontFace2 );
+			geometry.faces.push( leftFace1 );
+			geometry.faces.push( leftFace2 );
+			geometry.faces.push( bottomFace1 );
+			geometry.faces.push( bottomFace2 );
+			geometry.faces.push( topFace1 );
+			geometry.faces.push( topFace2 );
+			geometry.faces.push( rightFace1 );
+			geometry.faces.push( rightFace2 );
 
 		},
 
