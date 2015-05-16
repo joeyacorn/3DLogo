@@ -229,15 +229,17 @@ App.stage = App.stage || {};
 
 			// using this x and y position, create an html element
 			var element = document.createElement( 'div' );
-			element.innerHTML = 'joe joe joe joe';
 			element.className = 'cssObjects';
+			element.style.width = App.stage.actorWidth + 'px';
+			element.style.height = App.stage.actorHeight + 'px';
+			element.style.backgroundColor = 'rgb(' + tempActor.r + ',' + tempActor.g + ',' + tempActor.b + ')';
 			
 			// create the object3d for this element
 			var cssObject = new THREE.CSS3DObject( element );
 			// we reference the same position and rotation 
-			cssObject.position.x = tempActor.x;
-			cssObject.position.y = tempActor.y;
-			cssObject.position.z = tempActor.z;
+			cssObject.position.x = tempActor.x + (App.stage.actorWidth / 2);
+			cssObject.position.y = tempActor.y + (App.stage.actorHeight / 2);
+			cssObject.position.z = 0;
 
 			// add it to the css scene
 			App.stage.cssScene.add(cssObject);
