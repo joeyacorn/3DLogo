@@ -13,8 +13,13 @@ window.App = {
 		// load in a sample image
 		App.imageFunctions.getPixelsFromImage('../images/nyan.png', function(imageData) {
 
+			// we have an image size and we have a window size, 
+			// so calculate the dimensions we would like our output canvas to be
+			// so we can create the cavas to this size instead of expanding it with css
+			var outputCanvasStyle = App.getPeferredCanvasStyle(imageData.width, imageData.height);
+
 			// initiliase our stage
-			App.stage.initWithSize(imageData.width, imageData.height);
+			App.stage.initWithSize(outputCanvasStyle.width, outputCanvasStyle.height);
 
 			// add our actors
 			App.stage.createActorsWithImageData(imageData);
@@ -30,10 +35,8 @@ window.App = {
 			canvasContainer.append(cssCanvas);
 			cssCanvas.addClass('cssCanvas');
 
-			// resize our canvas container to maximise the use of space in the window
-			var newStyle = App.getPeferredCanvasStyle(imageData.width, imageData.height);
-
-			canvasContainer.css(newStyle);
+			// apply our generated css
+			canvasContainer.css(outputCanvasStyle.style);
 
 			// and kick off our rendering
 			App.stage.renderScene();
@@ -89,7 +92,12 @@ window.App = {
 
 		}
 
-		return {width: newImageWidth + 'px', height: newImageHeight + 'px', left: newLeft + 'px', top: newTop + 'px', position: 'absolute'};
+		var objReturn = {};
+		objReturn.width = newImageWidth;
+		objReturn.height = newImageHeight;
+		objReturn.style = {width: newImageWidth + 'px', height: newImageHeight + 'px', left: newLeft + 'px', top: newTop + 'px', position: 'absolute'};
+
+		return objReturn;
 
 	},
 

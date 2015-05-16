@@ -1,6 +1,6 @@
 .container {
 
-  padding-top: 0px;
+  padding-top: 0;
   margin-left: auto;
   margin-right: auto;
 
@@ -35,8 +35,6 @@
 .webglCanvas, .cssCanvas {
 
   position: relative;
-  width: 100% !important;
-  height: 100% !important;
   z-index: 0;
 
 }

@@ -14,14 +14,14 @@ App.stage = App.stage || {};
 		renderer: null,
 		cssRenderer: null,
 		cameraUpdateVelocity: 3.0,
-		width: 0,
-		height: 0,
+		sceneWidth: 0,
+		sceneHeight: 0,
 		actors: null,
 
 		initWithSize: function(width, height) {
 
-			this.width = width;
-			this.height = height;
+			this.sceneWidth = width;
+			this.sceneHeight = height;
 			this.scene = new THREE.Scene();
 			this.cssScene = new THREE.Scene();
 			this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
@@ -76,8 +76,12 @@ App.stage = App.stage || {};
 
 		createActorsWithImageData: function(imageData) {
 
-			var actorWidth = 1;
-			var actorHeight = 1;
+			// calculate the width and height each pixel will need to be 
+			// in the final output, compared to the input image
+			var widthRatio = this.sceneWidth / imageData.width;
+			var heightRatio = this.sceneHeight / imageData.height;
+			this.actorWidth = 1 * widthRatio;
+			this.actorHeight = 1 * heightRatio;
 
 			var geometry = new THREE.Geometry();
 
@@ -98,10 +102,10 @@ App.stage = App.stage || {};
 					// var a = imageData.data[imageDataIndex + 3];
 
 					// create our actors
-					this.createGeometryForQuad(geometry, j * actorWidth, i * actorHeight, actorWidth, actorHeight, (i * imageData.width) + j, 'rgb(' + r + ',' + g + ',' + b + ')');
+					this.createGeometryForQuad(geometry, j * this.actorWidth, i * this.actorHeight, this.actorWidth, this.actorHeight, (i * imageData.width) + j, 'rgb(' + r + ',' + g + ',' + b + ')');
 
 					// save reference to actor
-					rowArray.push({r: r, g: g, b: b, x: j * actorWidth, y: i * actorHeight});
+					rowArray.push({r: r, g: g, b: b, x: j * this.actorWidth, y: i * this.actorHeight});
 				
 				}
 
@@ -147,8 +151,13 @@ App.stage = App.stage || {};
 
 		renderScene: function() {
 
+			// make sure we fire this function again
 			requestAnimationFrame( App.stage.renderScene );
+
+			// ask the stage to update it's scenes
 			App.stage.update();
+			
+			// and render our scenes
 			App.stage.renderer.render( App.stage.scene, App.stage.camera );
 			App.stage.cssRenderer.render( App.stage.cssScene, App.stage.camera );
 		},
@@ -185,7 +194,7 @@ App.stage = App.stage || {};
 
 			// tween to the new position
 			var tween = new TWEEN.Tween(App.stage.camera.position)
-				.to({x: this.width / 2, y: this.height / 2, z: 150}, 500).easing(TWEEN.Easing.Quartic.Out);
+				.to({x: this.stageWidth / 2, y: this.stageHeight / 2, z: 150}, 500).easing(TWEEN.Easing.Quartic.Out);
 			tween.start();
 
 		},
