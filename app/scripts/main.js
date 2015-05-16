@@ -54,13 +54,6 @@ window.App = {
 		// compare the image width and height against the window width and height
 		// and work out the preferred size of the canvas
 
-		// work out the orientation of the image
-		var landscapeImage = true;
-		if (imageHeight > imageWidth) {
-
-			landscapeImage = false;
-
-		}
 
 		var newImageWidth;
 		var newImageHeight;

@@ -192,9 +192,28 @@ App.stage = App.stage || {};
 
 		resetCamera: function() {
 
+			var preferredDistanceFromActors = 150;
+
+			// we need to calculate the field fo view based on the size of the scene
+			// we want the field of view of the camera to include the largest scene dimension
+			var fieldOfView;
+
+			if (App.stage.sceneWidth > App.stage.sceneHeight) {
+
+				fieldOfView = 2 * Math.atan( ( App.stage.sceneWidth / (App.stage.sceneWidth / App.stage.sceneHeight) ) / ( 2 * preferredDistanceFromActors ) ) * ( 180 / Math.PI );
+
+			} else {
+
+				fieldOfView = 2 * Math.atan( App.stage.sceneHeight / ( 2 * preferredDistanceFromActors ) ) * ( 180 / Math.PI );
+
+			}
+
+			App.stage.camera.fov = fieldOfView;
+			App.stage.camera.updateProjectionMatrix();
+
 			// tween to the new position
 			var tween = new TWEEN.Tween(App.stage.camera.position)
-				.to({x: this.stageWidth / 2, y: this.stageHeight / 2, z: 150}, 500).easing(TWEEN.Easing.Quartic.Out);
+				.to({x: App.stage.sceneWidth / 2, y: App.stage.sceneWidth / 2, z: 150}, 500).easing(TWEEN.Easing.Quartic.Out);
 			tween.start();
 
 		},
