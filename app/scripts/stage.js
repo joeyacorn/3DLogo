@@ -182,16 +182,20 @@ App.stage = App.stage || {};
 
 			// zoom to the defined actors position
 			var tempActor = this.actors[y][x];
+			var animationSpeed = 500;
 
 			// tween to the new position
-			var tween = new TWEEN.Tween(App.stage.camera.position)
-				.to({x: tempActor.x, y: tempActor.y, z: 1}, 500).easing(TWEEN.Easing.Quartic.Out)
+			var positionTween = new TWEEN.Tween(App.stage.camera.position)
+				.to({x: tempActor.x - (App.stage.imageWidth / 10), y: tempActor.y, z: 5}, animationSpeed).easing(TWEEN.Easing.Quartic.Out)
 				.onComplete(function() {
 
 					App.stage.addHTMLElementToActor(x, y);
 
 				});
-			tween.start();
+			positionTween.start();
+			var rotationTween = new TWEEN.Tween(App.stage.camera.rotation)
+				.to({x: 0, y: -0.174, z: 0}, animationSpeed).easing(TWEEN.Easing.Quartic.Out);
+			rotationTween.start();
 
 		},
 
@@ -205,10 +209,17 @@ App.stage = App.stage || {};
 			App.stage.camera.fov = fieldOfView;
 			App.stage.camera.updateProjectionMatrix();
 
+			var animationSpeed = 500;
+
 			// tween to the new position
-			var tween = new TWEEN.Tween(App.stage.camera.position)
-				.to({x: App.stage.sceneWidth / 2, y: App.stage.sceneHeight / 2, z: preferredDistanceFromActors}, 500).easing(TWEEN.Easing.Quartic.Out);
-			tween.start();
+			var postionTween = new TWEEN.Tween(App.stage.camera.position)
+				.to({x: App.stage.sceneWidth / 2, y: App.stage.sceneHeight / 2, z: preferredDistanceFromActors}, animationSpeed).easing(TWEEN.Easing.Quartic.Out);
+				
+			postionTween.start();
+			var rotationTween = new TWEEN.Tween(App.stage.camera.rotation)
+				.to({x: 0, y: 0, z: 0}, animationSpeed).easing(TWEEN.Easing.Quartic.Out);
+			rotationTween.start();
+				
 
 		},
 
