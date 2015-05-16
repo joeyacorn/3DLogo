@@ -191,6 +191,10 @@ App.stage = App.stage || {};
 
 					App.stage.addHTMLElementToActor(x, y);
 
+					var panTween = new TWEEN.Tween(App.stage.camera.position)
+						.to({x: App.stage.camera.position.x + 50.0}, 10000);
+					panTween.start();
+
 				});
 			positionTween.start();
 			var rotationTween = new TWEEN.Tween(App.stage.camera.rotation)
@@ -217,7 +221,12 @@ App.stage = App.stage || {};
 				
 			postionTween.start();
 			var rotationTween = new TWEEN.Tween(App.stage.camera.rotation)
-				.to({x: 0, y: 0, z: 0}, animationSpeed).easing(TWEEN.Easing.Quartic.Out);
+				.to({x: 0, y: 0, z: 0}, animationSpeed).easing(TWEEN.Easing.Quartic.Out)
+				.onComplete(function() {
+
+					TWEEN.removeAll();
+
+				});
 			rotationTween.start();
 				
 
