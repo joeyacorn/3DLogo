@@ -32,6 +32,12 @@
 
 }
 
+.canvasContainer {
+
+  position: relative;
+
+}
+
 .webglCanvas, .cssCanvas {
 
   position: relative;

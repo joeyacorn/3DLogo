@@ -26,7 +26,7 @@ App.stage = App.stage || {};
 			this.sceneHeight = height;
 			this.scene = new THREE.Scene();
 			this.cssScene = new THREE.Scene();
-			this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
+			this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 			
 			// create the correct renderer for our system
 			if (this.webglAvailable()) {
@@ -39,11 +39,11 @@ App.stage = App.stage || {};
 
 			}
 
-			this.renderer.setSize(width, height);
+			this.renderer.setSize(window.innerWidth, window.innerHeight);
 
 			// and set up our css renderer
 			this.cssRenderer = new THREE.CSS3DRenderer();
-			this.cssRenderer.setSize(width, height);
+			this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
 
 			// reset the camera
 			this.resetCamera();
@@ -200,25 +200,14 @@ App.stage = App.stage || {};
 			var preferredDistanceFromActors = 150;
 
 			// we need to calculate the field fo view based on the size of the scene
-			// we want the field of view of the camera to include the largest scene dimension
-			var fieldOfView;
-
-			if (App.stage.sceneWidth > App.stage.sceneHeight) {
-
-				fieldOfView = 2 * Math.atan( ( App.stage.sceneWidth / (App.stage.sceneWidth / App.stage.sceneHeight) ) / ( 2 * preferredDistanceFromActors ) ) * ( 180 / Math.PI );
-
-			} else {
-
-				fieldOfView = 2 * Math.atan( App.stage.sceneHeight / ( 2 * preferredDistanceFromActors ) ) * ( 180 / Math.PI );
-
-			}
+			var fieldOfView = 2 * Math.atan( ( window.innerWidth / (window.innerWidth / window.innerHeight) ) / ( 2 * preferredDistanceFromActors ) ) * ( 180 / Math.PI );
 
 			App.stage.camera.fov = fieldOfView;
 			App.stage.camera.updateProjectionMatrix();
 
 			// tween to the new position
 			var tween = new TWEEN.Tween(App.stage.camera.position)
-				.to({x: App.stage.sceneWidth / 2, y: App.stage.sceneWidth / 2, z: 150}, 500).easing(TWEEN.Easing.Quartic.Out);
+				.to({x: App.stage.sceneWidth / 2, y: App.stage.sceneHeight / 2, z: preferredDistanceFromActors}, 500).easing(TWEEN.Easing.Quartic.Out);
 			tween.start();
 
 		},

@@ -35,9 +35,6 @@ window.App = {
 			canvasContainer.append(cssCanvas);
 			cssCanvas.addClass('cssCanvas');
 
-			// apply our generated css
-			canvasContainer.css(outputCanvasStyle.style);
-
 			// and kick off our rendering
 			App.stage.renderScene();
 
@@ -88,7 +85,6 @@ window.App = {
 		var objReturn = {};
 		objReturn.width = newImageWidth;
 		objReturn.height = newImageHeight;
-		objReturn.style = {width: newImageWidth + 'px', height: newImageHeight + 'px', left: newLeft + 'px', top: newTop + 'px', position: 'absolute'};
 
 		return objReturn;
 
