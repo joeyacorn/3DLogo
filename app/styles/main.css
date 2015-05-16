@@ -1,8 +1,7 @@
 .container {
 
-  padding-top: 0;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 0;
+  margin: 0;
 
 }
 
@@ -16,11 +15,13 @@
 
 .source {
 
+  z-index: 3;
   position: absolute;
   background-position: center;
-  background-image: url('../images/porsche.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
+  border: 1px solid white;
+  background-color: black;
 
 }
 

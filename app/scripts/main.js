@@ -5,13 +5,18 @@ window.App = {
 
 	imageFunctions: {},
 	zooming: false,
+	image: null,
 
 	init: function() {
 
 		'use strict';
 
+		// set the reference image
+		this.image = '../images/nyan.png';
+		$('div.source').css('background-image', 'url(' + this.image + ')');
+
 		// load in a sample image
-		App.imageFunctions.getPixelsFromImage('../images/porsche.png', function(imageData) {
+		App.imageFunctions.getPixelsFromImage(this.image, function(imageData) {
 
 			// we have an image size and we have a window size, 
 			// so calculate the dimensions we would like our output canvas to be
