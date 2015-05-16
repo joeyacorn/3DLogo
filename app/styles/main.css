@@ -18,7 +18,7 @@
 
   position: absolute;
   background-position: center;
-  background-image: url('../images/nyan.png');
+  background-image: url('../images/porsche.png');
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -51,7 +51,5 @@
 .cssObjects {
 
   color: white;
-  background-color: red;
-  border: 1px solid white;
 
 }

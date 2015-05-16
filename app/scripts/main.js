@@ -11,7 +11,7 @@ window.App = {
 		'use strict';
 
 		// load in a sample image
-		App.imageFunctions.getPixelsFromImage('../images/nyan.png', function(imageData) {
+		App.imageFunctions.getPixelsFromImage('../images/porsche.png', function(imageData) {
 
 			// we have an image size and we have a window size, 
 			// so calculate the dimensions we would like our output canvas to be

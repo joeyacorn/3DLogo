@@ -185,7 +185,7 @@ App.stage = App.stage || {};
 
 			// tween to the new position
 			var tween = new TWEEN.Tween(App.stage.camera.position)
-				.to({x: tempActor.x, y: tempActor.y, z: 10}, 500).easing(TWEEN.Easing.Quartic.Out)
+				.to({x: tempActor.x, y: tempActor.y, z: 1}, 500).easing(TWEEN.Easing.Quartic.Out)
 				.onComplete(function() {
 
 					App.stage.addHTMLElementToActor(x, y);
