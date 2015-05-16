@@ -40,6 +40,7 @@ App.stage = App.stage || {};
 			}
 
 			this.renderer.setSize(window.innerWidth, window.innerHeight);
+			this.renderer.setClearColor(0xffffff);
 
 			// and set up our css renderer
 			this.cssRenderer = new THREE.CSS3DRenderer();
@@ -129,10 +130,13 @@ App.stage = App.stage || {};
 
 			var vertexIndex = geometry.vertices.length;
 
-			geometry.vertices.push( new THREE.Vector3( x, y, 0 ) );
-			geometry.vertices.push( new THREE.Vector3( x + width, y, 0 ) );
-			geometry.vertices.push( new THREE.Vector3( x + width, y + height, 0 ) );
-			geometry.vertices.push( new THREE.Vector3( x, y + height, 0 ) );
+			var zRange = 3.0;
+			var zDepth = this.getRandomArbitrary(0 - zRange, 0 + zRange);
+
+			geometry.vertices.push( new THREE.Vector3( x, y, zDepth ) );
+			geometry.vertices.push( new THREE.Vector3( x + width, y, zDepth ) );
+			geometry.vertices.push( new THREE.Vector3( x + width, y + height, zDepth ) );
+			geometry.vertices.push( new THREE.Vector3( x, y + height, zDepth ) );
  
 			var tempFace1 = new THREE.Face3( vertexIndex, vertexIndex + 1, vertexIndex + 2 ); // counter-clockwise winding order
 
@@ -151,6 +155,12 @@ App.stage = App.stage || {};
 			geometry.faces.push( tempFace1 );
 			geometry.faces.push( tempFace2 );
 
+
+		},
+
+		getRandomArbitrary: function(min, max) {
+
+			return Math.random() * (max - min) + min;
 
 		},
 
@@ -182,7 +192,7 @@ App.stage = App.stage || {};
 
 			// zoom to the defined actors position
 			var tempActor = this.actors[y][x];
-			var animationSpeed = 500;
+			var animationSpeed = 2000;
 
 			// tween to the new position
 			var positionTween = new TWEEN.Tween(App.stage.camera.position)

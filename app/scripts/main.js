@@ -12,7 +12,7 @@ window.App = {
 		'use strict';
 
 		// set the reference image
-		this.image = '../images/nyan.png';
+		this.image = '../images/porsche.png';
 		$('div.source').css('background-image', 'url(' + this.image + ')');
 
 		// load in a sample image
