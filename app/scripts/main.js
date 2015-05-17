@@ -100,15 +100,26 @@ window.App = {
 
 		if (! this.zooming) {
 
-			if (keyEvent.keyCode === 49) {
+			if (keyEvent.keyCode === 49 || keyEvent.keyCode === 50) {
 
 				this.zooming = true;
 
 				var actorX = Math.floor((Math.random() * App.stage.imageWidth) + 1);
 				var actorY = Math.floor((Math.random() * App.stage.imageHeight) + 1);
 
-				// zoom to the center
-				App.stage.zoomToActor(actorX, actorY);
+				if (keyEvent.keyCode === 49) {
+
+					// zoom to the center
+					App.stage.zoomToActor(actorX, actorY, 0);
+
+				}
+
+				if (keyEvent.keyCode === 50) {
+
+					// zoom to the center
+					App.stage.zoomToActor(actorX, actorY, 1);
+
+				}
 
 			}
 

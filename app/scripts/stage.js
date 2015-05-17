@@ -251,7 +251,17 @@ App.stage = App.stage || {};
 
 		},
 
-		zoomToActor: function(x, y) {
+		zoomToActor: function(x, y, animationType) {
+
+			// animation types are:
+			// 0: face right
+			// 1: face left
+
+			if ( animationType === 'undefined') {
+
+				animationType = 0;
+
+			}
 
 			// fade out the image cover
 			$('div.coverImage').fadeOut();
@@ -264,10 +274,25 @@ App.stage = App.stage || {};
 			// zoom to the defined actors position
 			var tempActor = this.actors[y][x];
 			var animationSpeed = 2000;
+			var newX = tempActor.x - (App.stage.imageWidth / 10);	// the default new position
+
+			if (animationType === 1) {
+
+				newX = tempActor.x + (App.stage.imageWidth / 10);
+
+			}
+
+			var newYRotation = -0.174;		// teh default new rotation
+
+			if (animationType === 1) {
+
+				newYRotation = 0.174;
+
+			}
 
 			// tween to the new position
 			var positionTween = new TWEEN.Tween(App.stage.camera.position)
-				.to({x: tempActor.x - (App.stage.imageWidth / 10), y: tempActor.y, z: 5}, animationSpeed).easing(TWEEN.Easing.Quartic.Out)
+				.to({x: newX, y: tempActor.y, z: 5}, animationSpeed).easing(TWEEN.Easing.Quartic.Out)
 				.onComplete(function() {
 
 					App.stage.addHTMLElementToActor(x, y);
@@ -279,7 +304,7 @@ App.stage = App.stage || {};
 				});
 			positionTween.start();
 			var rotationTween = new TWEEN.Tween(App.stage.camera.rotation)
-				.to({x: 0, y: -0.174, z: 0}, animationSpeed).easing(TWEEN.Easing.Quartic.Out);
+				.to({x: 0, y: newYRotation, z: 0}, animationSpeed).easing(TWEEN.Easing.Quartic.Out);
 			rotationTween.start();
 
 		},
