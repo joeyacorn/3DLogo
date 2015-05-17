@@ -253,6 +253,9 @@ App.stage = App.stage || {};
 
 		zoomToActor: function(x, y) {
 
+			// fade out the image cover
+			$('div.coverImage').fadeOut();
+
 			// for the given image coordinates, 
 			// zoom the camera in 
 			// look at the coords as a center point
@@ -303,6 +306,9 @@ App.stage = App.stage || {};
 				.onComplete(function() {
 
 					TWEEN.removeAll();
+
+					// fade in the cover image
+					$('div.coverImage').fadeIn();
 
 				});
 			rotationTween.start();

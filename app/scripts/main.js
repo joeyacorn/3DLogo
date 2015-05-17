@@ -14,6 +14,7 @@ window.App = {
 		// set the reference image
 		this.image = '../images/porsche.png';
 		$('div.source').css('background-image', 'url(' + this.image + ')');
+		$('div.coverImage').css('background-image', 'url(' + this.image + ')');
 
 		// load in a sample image
 		App.imageFunctions.getPixelsFromImage(this.image, function(imageData) {
